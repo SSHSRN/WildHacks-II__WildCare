@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- This page will have the signup login interface for supporters. -->
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WildCare-Supporter</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+        <style>
+            .signUpWithGoogle,.signInWithGoogle{
+                padding: 20px;
+                border: 1px dashed black;
+                border-radius: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- NavBar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <img class="mr-2" src="assets/logo.png" alt="logo" width="30px">
+            <a class="navbar-brand" href="#">WildCare</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="supporter.html">Support Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mailto:sshsrn@gmail.com">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="member.html">Post Details of a lost animal</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <center><h1 class="mt-3 mb-0">WildCare-Supporter</h1></center>
+        <h2 class="mb-0 pt-3 text-center">WildCare is a portal where you can adopt animals by donating for a cause or also by manually adopting them and take them home!</h2>
+
+        <!-- SignUp div -->
+        <div class="pt-5 signUpDiv" id="signUpDiv">
+            <div class="container">  
+                <div class="col-md-5 mx-auto" style="border: 2px solid black;">
+                    <!-- mx-auto => horizontally centering -->
+                    <!-- col-md-* => to make the card horizontal at the md breakpoint -->
+                    <div style="border: 1px dashed white; padding: 20px;">
+                        <h2>Sign up!</h2>
+                        <div class="mt-3">
+                            <label class="align-items-center"> Enter your Email </label>
+                            <input type="text" class="form-control text-lowercase" required id="s-email" >
+                        </div>
+                        <div class="mt-3">
+                            <label class="align-items-center"> Set a Password </label>
+                            <input type="password" class="form-control" required id="s-password">
+                        </div>
+                        <!-- <div>
+                            <label class="align-items-center"> Confirm Password </label>
+                            <input type="password" class="form-control"  id="password">
+                        </div>    -->
+                        <div class="pt-1">
+                            <button class="mt-3 btn btn-primary btn-block" id="signUp"> Sign Up </button>
+                            <!-- btn btn-primary => Blue button -->
+                            <!-- btn-block => full-width buttons -->
+                        </div>
+                        <p class="pt-3 text-center">
+                        <span class="text-muted"> Already have an account? </span>
+                        <a style="cursor: pointer;" onclick="toggleSignupLogin()"> Sign in </a></p>
+                    </div>
+                    <center><button class="mt-2 mb-4 signInWithGoogle" id="signUpWithGoogle" style="display: inline;">Sign Up with google</button></center>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login div -->
+        <div class="pt-5 loginDiv" id="loginDiv" style="display: none;">  
+            <div class="container">  
+                <div class="col-md-5 mx-auto" style="border: 2px solid black;">  
+                    <div style="border: 1px dashed white; padding: 20px;">  
+                        <h2>Login!</h2>
+                        <div class="mt-3">  
+                            <label class="align-items-center"> Enter your Email </label>  
+                            <input type="text" class="form-control text-lowercase" required id="l-email">  
+                        </div>
+                        <div class="mt-3">
+                            <label class="align-items-center"> Enter your Password </label>
+                            <input type="password" class="form-control" required id="l-password">
+                        </div>
+                        <div class="pt-1">
+                            <button class="mt-3 btn btn-primary btn-block" id="login"> Log In </button>
+                        </div>
+                        <p class="pt-3 text-center">
+                        <span class="text-muted"> Not a member? </span>  
+                        <a style="cursor: pointer;" onclick="toggleSignupLogin()"> Sign up </a></p>
+                    </div>
+                    <center><button class="mt-2 mb-4 signInWithGoogle" id="signInWithGoogle" style="display: inline;">Sign In with google</button></center>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleSignupLogin() {
+                a = document.getElementById("signUpDiv");
+                b = document.getElementById("loginDiv");
+                if(a.style.display == "none"){
+                    a.style.display = "block";
+                    b.style.display = "none";
+                }
+                else{
+                    a.style.display = "none";
+                    b.style.display = "block";
+                }
+            }
+        </script>
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-analytics.js";
+            import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-auth.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+        
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+            apiKey: "AIzaSyCpDIvXnwJoSZqLKPGBQG5fk7KiQFFaZjA",
+            authDomain: "wildcare-bb597.firebaseapp.com",
+            projectId: "wildcare-bb597",
+            storageBucket: "wildcare-bb597.appspot.com",
+            messagingSenderId: "250736649726",
+            appId: "1:250736649726:web:ead8f3e4c96e6130108caf",
+            measurementId: "G-R3Q7F4S59P"
+            };
+        
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            const auth = getAuth();
+            console.log("Firebase initialised");
+            const provider = new GoogleAuthProvider();
+
+            // Signup with email password
+            signUp.addEventListener('click', (e) => {
+                var email = document.getElementById("s-email").value;
+                // console.log(email);
+                var password = document.getElementById("s-password").value;
+                // console.log(password);
+
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Signed in 
+                        const user = userCredential.user;
+                        // console.log("Created account Successfully!");
+                        window.location.replace("supporter1.html");
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        alert(errorMessage);
+                        // ..
+                    });
+            });
+
+            // Login with email password
+            login.addEventListener('click', (e) => {
+                var email = document.getElementById("l-email").value;
+                // console.log(email);
+                var password = document.getElementById("l-password").value;
+                // console.log(password);
+
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Signed in 
+                        const user = userCredential.user;
+                        // ...
+                        console.log("User logged in Successfully!");
+                        window.location.replace("supporter1.html");
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        alert(errorMessage);
+                    });
+            });
+
+            // Signup with Google
+            signUpWithGoogle.addEventListener('click', (e) => {
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        // This gives you a Google Access Token. You can use it to access the Google API.
+                        const credential = GoogleAuthProvider.credentialFromResult(result);
+                        const token = credential.accessToken;
+
+                        const user = result.user;
+                        // console.log(user);
+                        window.location.replace("supporter1.html");
+                    }).catch((error) => {
+                        // Handle Errors here.
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        // The email of the user's account used.
+                        const email = error.customData.email;
+                        // The AuthCredential type that was used.
+                        const credential = GoogleAuthProvider.credentialFromError(error);
+                        // alert(errorMessage);
+                        console.log("ERROR signing up.");
+                    });
+
+            });
+
+            // Signin with Google
+            signInWithGoogle.addEventListener('click', (e) => {
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        // This gives you a Google Access Token. You can use it to access the Google API.
+                        const credential = GoogleAuthProvider.credentialFromResult(result);
+                        const token = credential.accessToken;
+
+                        const user = result.user;
+                        // console.log(user);
+                        window.location.replace("supporter1.html");
+                    }).catch((error) => {
+                        // Handle Errors here.
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        // The email of the user's account used.
+                        const email = error.customData.email;
+                        // The AuthCredential type that was used.
+                        const credential = GoogleAuthProvider.credentialFromError(error);
+                        // alert(errorMessage);
+                        console.log("ERROR signing up.");
+                    });
+
+            });
+
+            const user = auth.currentUser;
+            console.log(user);
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is signed in, see docs for a list of available properties
+                    // https://firebase.google.com/docs/reference/js/firebase.User
+                    const uid = user.uid;
+                    // ...
+                } else {
+                    // User is signed out
+                    // ...
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -31,5 +31,79 @@
             </div>
         </nav>
         <center><h1>You just got scammed!😂</h1></center>
+
+        <!-- Firebase config -->
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-analytics.js";
+            import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.9.2/firebase-auth.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+          
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+              apiKey: "AIzaSyCpDIvXnwJoSZqLKPGBQG5fk7KiQFFaZjA",
+              authDomain: "wildcare-bb597.firebaseapp.com",
+              projectId: "wildcare-bb597",
+              storageBucket: "wildcare-bb597.appspot.com",
+              messagingSenderId: "250736649726",
+              appId: "1:250736649726:web:7498378b1a595fa2108caf",
+              measurementId: "G-BWGQMWG8DP"
+            };
+        
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+            const auth = getAuth();
+            const database = getDatabase(app);
+            console.log("Firebase initialised");
+
+            const user = auth.currentUser;
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is signed in, see docs for a list of available properties
+                    // https://firebase.google.com/docs/reference/js/firebase.User
+                    const uid = user.uid;
+                    // ...
+                    getValues(user);
+                } else {
+                    // User is signed out
+                    // ...
+                    window.location.replace("error.html");
+                }
+            });
+
+            // Logout
+            logoutButton.addEventListener('click', (e) => {
+                signOut(auth)
+                    .then(() => {
+                        // Sign-out successful.
+                        // alert("User signed out!");
+                        window.location.replace("index.html");
+                    })
+                    .catch((error) => {
+                        // An error happened.
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        alert(errorMessage);
+                    });
+            });
+
+
+            function getValues(user) {
+                const uid = user.uid;
+                // console.log("UID: " + uid);
+                if(user.displayName != null){
+                    document.getElementById("userName").innerText = user.displayName.replace(" ", "\u00A0");
+                }
+                // \u00A0 => To add a non breaking space => does not let the name get separated into two lines.
+                document.getElementById("userEmail").innerText = user.email;
+                if(user.photoURL != null){
+                    document.getElementById("userImage").src = user.photoURL;
+                }	
+            }
+        </script>
     </body>
 </html>

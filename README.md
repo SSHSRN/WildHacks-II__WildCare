@@ -1,7 +1,6 @@
 # WildCare
 
 ## This project is made for the [WildHacks-2 hackathon](https://organize.mlh.io/participants/events/8333-wildhacks-ii) conducted by [MLH](https://mlh.io/) on August 5 to August 7, 2022.
-<br>
 
 ## Design:
 We planned and made a wireframe for the project using Figma.<br>
